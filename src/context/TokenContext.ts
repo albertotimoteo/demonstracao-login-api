@@ -1,3 +1,3 @@
 import React from "react"
 
-export const TokenContext = React.createContext({ token: "" })
+export const UserContext = React.createContext({ token: "", name: "" })

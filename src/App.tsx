@@ -1,36 +1,24 @@
 import { useState } from "react"
-import { login } from "./services/user"
-import { TokenContext } from "./context/TokenContext"
+import Login from "./pages/Login"
+import { UserContext } from "./context/TokenContext"
 
 function App() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [token, setToken] = useState("")
+  const [loginResult, setLoginResult] = useState<{
+    token: string
+    name: string
+  }>({
+    token: "",
+    name: "",
+  })
 
-  const doLogin = async () => {
-    const token = await login(email, password)
-    setToken(token)
-  }
+  console.log(import.meta.env.VITE_API_BASE_URL)
 
   return (
-    <TokenContext.Provider value={{ token }}>
-      <label>
-        E-mail
-        <input
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-        />
-      </label>
-      <label>
-        Senha
-        <input
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          type="password"
-        />
-      </label>
-      <button onClick={doLogin}>Entrar</button>
-    </TokenContext.Provider>
+    <UserContext.Provider
+      value={{ token: loginResult.token, name: loginResult.name }}
+    >
+      <Login setLoginResult={setLoginResult} />
+    </UserContext.Provider>
   )
 }
 
